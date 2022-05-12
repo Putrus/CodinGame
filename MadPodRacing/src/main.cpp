@@ -3,106 +3,18 @@
 #include <vector>
 #include <algorithm>
 
+#include "../include/Vec2.h"
+
 namespace math {
 
-   class Vec2 {
-   public:
-      //coordinates
-      int x;
-      int y;
 
-      Vec2() : x(0), y(0) {
-      }
-
-      Vec2(int x, int y) : x(x), y(y) {
-      }
-
-      //distance from (0,0) point
-      double length() const {
-         return std::sqrt(x * x + y * y);
-      }
-
-      //distance between this and v vectors
-      double dist(Vec2& v) const {
-         return std::sqrt((v.x - this->x) * (v.x - this->x) + (v.y - this->y) * (v.y - this->y));
-      }
-
-      //prefix increment
-      Vec2& operator++() {
-         ++x;
-         ++y;
-         return *this;
-      }
-
-      //postfix increment
-      Vec2 operator++(int) {
-         Vec2 v = *this;
-         ++* this;
-         return v;
-      }
-
-      //prefix decrement
-      Vec2& operator--() {
-         --x;
-         --y;
-         return *this;
-      }
-
-      //postfix decrement
-      Vec2 operator--(int) {
-         Vec2 v = *this;
-         --* this;
-         return v;
-      }
-
-      //add int
-      Vec2 operator+(const int& n) {
-         return Vec2(this->x + n, this->y + n);
-      }
-
-      //add vec2
-      Vec2 operator+(const Vec2& v) {
-         return Vec2(this->x + v.x, this->y + v.y);
-      }
-
-      //subtract int
-      Vec2 operator-(const int& n) {
-         return Vec2(this->x - n, this->y - n);
-      }
-
-      //subtract vec2
-      Vec2 operator-(const Vec2& v) {
-         return Vec2(this->x - v.x, this->y - v.y);
-      }
-
-      friend std::ostream& operator<<(std::ostream& os, const Vec2& v);
-      friend std::istream& operator>>(std::istream& is, Vec2& v);
-   };
-
-   std::ostream& operator<<(std::ostream& os, const Vec2& v) {
-      os << v.x << ' ' << v.y;
-      return os;
-   }
-
-   std::istream& operator>>(std::istream& is, Vec2& v) {
-      is >> v.x >> v.y;
-      return is;
-   }
-
-   bool operator==(const math::Vec2& lhs, const math::Vec2& rhs) {
-      return lhs.x == rhs.x && lhs.y == rhs.y;
-   }
-
-   bool operator!=(const math::Vec2& lhs, const math::Vec2& rhs) {
-      return lhs.x != rhs.x || lhs.y != rhs.y;
-   }
 }
 
 namespace game {
    class Checkpoint {
    private:
       //whether this checkpoint is next
-      math::Vec2 m_position;
+      Vec2 m_position;
       int m_pod_dist;
       int m_pod_angle;
       bool m_flag;
@@ -114,7 +26,7 @@ namespace game {
       Checkpoint(int x, int y, int pod_dist = 0, int pod_angle = 0, bool flag = false) : m_position(x, y), m_pod_dist(pod_dist), m_pod_angle(pod_angle), m_flag(false) {
       }
 
-      Checkpoint(math::Vec2 position, int pod_dist = 0, int pod_angle = 0, bool flag = false) : Checkpoint(position.x, position.y, pod_dist, pod_angle, flag) {
+      Checkpoint(Vec2 position, int pod_dist = 0, int pod_angle = 0, bool flag = false) : Checkpoint(position.x, position.y, pod_dist, pod_angle, flag) {
       }
 
       void setPodDist(int pod_dist) {
@@ -141,7 +53,7 @@ namespace game {
          return m_flag;
       }
 
-      math::Vec2 getPosition() const {
+      Vec2 getPosition() const {
          return m_position;
       }
 
@@ -168,7 +80,7 @@ namespace game {
       return lhs.getPosition() != rhs.getPosition();
    }
 
-   class Pod : public math::Vec2 {
+   class Pod : public Vec2 {
    };
 
    class Game {
